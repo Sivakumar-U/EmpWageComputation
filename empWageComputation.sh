@@ -10,6 +10,7 @@ totalWorkingDays=0
 totalEmployeeHrs=0
 
 declare -a dailyWage
+declare -a days
 
 function getWorkHrs() {
         case $1 in $IS_FULL_TIME )
@@ -35,6 +36,8 @@ do
 done
 
 Monthly_wage=$(( $totalEmployeeHrs*$EMP_WAGE_PER_HR ))
+echo -e "Days:\c"
+echo ${!dailyWage[@]}
 echo -e "DailyWage:\c"
 echo ${dailyWage[@]}
 echo "Total Wage in a month:$Monthly_wage"
