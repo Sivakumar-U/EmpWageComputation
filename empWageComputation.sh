@@ -2,10 +2,14 @@
 
 isFullTime=1
 isPartTime=2
+totalSalary=0
 empRatePerHr=20
-randomCheck=$(( RANDOM%3 ))
+numOfWorkingDays=20
 
-case $randomCheck in
+for (( day=1; day<=$numOfWorkingDays; day++ ))
+do
+    randomCheck=$(( RANDOM%3 ))
+	case $randomCheck in
 	$isFullTime )
         	empHrs=8
         ;;
@@ -15,7 +19,9 @@ case $randomCheck in
         * )
         	empHrs=0
         ;;
-esac
+        esac
 
-dailyWage=$(($empHrs*$empRatePerHr))
-echo $dailyWage
+	salary=$(($empHrs*$empRatePerHr))
+	totalSalary=$(($totalSalary+$salary))
+done
+echo "Monthly_Wage=$totalSalary"
