@@ -9,23 +9,27 @@ EMP_WAGE_PER_HR=20
 totalWorkingDays=0
 totalEmployeeHrs=0
 
+function getWorkHrs() {
+        case $1 in $IS_FULL_TIME )
+                	working_Hrs=8
+                ;;
+                $IS_PART_TIME )
+                	working_Hrs=4
+                ;;
+                * )
+               		 working_Hrs=0
+                ;;
+        esac
+	echo $working_Hrs
+}
+
 while [[ $totalWorkingDays -lt $WORKING_DAYS_PER_MONTH && $totalEmployeeHrs -lt $TOTAL_WORKING_HRS ]]
 do
 	((totalWorkingDays++))
-	empCheck=$((RANDOM%3))
-	case $empCheck in $IS_FULL_TIME )
-		Working_Hrs=8
-		;;
-		$IS_PART_TIME )
-		Working_Hrs=4
-		;;
-		* )
-		Working_Hrs=0
-		;;
-	esac
-	totalEmployeeHrs=$(($totalEmployeeHrs+$Working_Hrs));
+	working_Hrs="$( getWorkHrs $((RANDOM%3)) )"
+	totalEmployeeHrs=$(($totalEmployeeHrs+$working_Hrs))
 
 done
 
-Monthly_wage=$(( $totalEmployeeHrs*$EMP_WAGE_PER_HR ));
+Monthly_wage=$(( $totalEmployeeHrs*$EMP_WAGE_PER_HR ))
 echo "Total Wage in a month:$Monthly_wage"
