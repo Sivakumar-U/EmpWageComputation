@@ -9,27 +9,32 @@ EMP_WAGE_PER_HR=20
 totalWorkingDays=0
 totalEmployeeHrs=0
 
+declare -a dailyWage
+
 function getWorkHrs() {
         case $1 in $IS_FULL_TIME )
-                	working_Hrs=8
+                	empHrs=8
                 ;;
                 $IS_PART_TIME )
-                	working_Hrs=4
+                	empHrs=4
                 ;;
                 * )
-               		 working_Hrs=0
+               		empHrs=0
                 ;;
         esac
-	echo $working_Hrs
+	echo $empHrs
 }
 
 while [[ $totalWorkingDays -lt $WORKING_DAYS_PER_MONTH && $totalEmployeeHrs -lt $TOTAL_WORKING_HRS ]]
 do
 	((totalWorkingDays++))
-	working_Hrs="$( getWorkHrs $((RANDOM%3)) )"
-	totalEmployeeHrs=$(($totalEmployeeHrs+$working_Hrs))
-
+	empCheck=$((RANDOM%3))
+	empHrs="$( getWorkHrs $empCheck )"
+	totalEmployeeHrs=$(($totalEmployeeHrs+$empHrs))
+	dailyWage[$totalWorkingDays]=$(( $empHrs*$EMP_WAGE_PER_HR ))
 done
 
 Monthly_wage=$(( $totalEmployeeHrs*$EMP_WAGE_PER_HR ))
+echo -e "DailyWage:\c"
+echo ${dailyWage[@]}
 echo "Total Wage in a month:$Monthly_wage"
